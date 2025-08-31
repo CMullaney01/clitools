@@ -1,0 +1,12 @@
+EXE = example
+CXX = g++
+CXXFLAGS = -std=c++17 -Iinclude -Wall -Wextra
+SRC = src/argparse.cpp src/commands.cpp examples/main.cpp
+
+all: $(EXE)
+
+$(EXE): $(SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $(SRC)
+
+clean:
+	rm -f $(EXE)

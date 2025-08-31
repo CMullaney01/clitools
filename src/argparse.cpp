@@ -1,14 +1,15 @@
-#include "clitools/argparse.hpp"
+#include "clitools/argparser.hpp"
+#include "clitools/constants.hpp"
 #include <string>
 
 namespace clitools {
 
 // Parse raw argv into the parsed map
 ArgParser::ArgParser(int argc, char* argv[]) {
-  for (int i = 1; i < argc; ++i) {
+   for (int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
-    if (arg.rfind(FLAG_PREFIX, 0) == 0) {
-      std ::string key = arg.substr(FLAG_PREFIX.size());
+    if (arg.rfind(clitools::FLAG_PREFIX, 0) == 0) {
+      std::string key = arg.substr(clitools::FLAG_PREFIX.size());
       std::string value = "true";
 
       // --name Alice -> parsed["--name"] = "Alice"
@@ -20,7 +21,7 @@ ArgParser::ArgParser(int argc, char* argv[]) {
           ++i; 
         }
       }
-      parsed[key] = value;
+  parsed[key] = value;
     }
   }
 }
@@ -41,7 +42,7 @@ std::string ArgParser::get(const std::string& flag, const std::string& def) cons
 void ArgParser::help() const {
   std::cout << "Available options:\n";
   for (const auto& [flag, desc] : options) {
-    std::cout << " " << flag << "\it" << desc << "\n";
+  std::cout << " " << flag << "\t" << desc << "\n";
   }
 }
 
