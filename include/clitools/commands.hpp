@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 #include "argparser.hpp"
 
@@ -11,10 +12,6 @@ namespace clitools {
 class Command {
  public:
   using CommandFn = std::function<void(const std::vector<std::string> &args)>;
-
-  Command() = default;
-  Command(const std::string& desc, CommandFn fn = nullptr)
-      : description(desc), fn(fn) {}
 
   void set_function(CommandFn f) { fn = f; }
   void set_description(const std::string& desc) { description = desc; }

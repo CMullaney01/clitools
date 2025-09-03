@@ -1,5 +1,6 @@
 
 #include "clitools/commands.hpp"
+#include "clitools/constants.hpp"
 #include <iostream>
 
 namespace clitools {

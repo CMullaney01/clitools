@@ -1,5 +1,6 @@
 #include "clitools/argparser.hpp"
 #include "clitools/constants.hpp"
+#include <iostream>
 
 namespace clitools {
 
