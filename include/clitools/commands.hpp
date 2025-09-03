@@ -13,6 +13,12 @@ class Command {
  public:
   using CommandFn = std::function<void(const std::vector<std::string> &args)>;
 
+  Command(const std::string& desc,
+          CommandFn fn,
+          const ArgParser& argparser,
+          const std::unordered_map<std::string, Command>& commands)
+      : description(desc), fn(fn), argparser(argparser), commands(commands) {}
+
   void set_function(CommandFn f) { fn = f; }
   void set_description(const std::string& desc) { description = desc; }
 
