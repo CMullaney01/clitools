@@ -1,8 +1,8 @@
 #pragma once
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
-#include <stdexcept>
 
 namespace clitools {
 
@@ -29,7 +29,8 @@ class Command {
   // Help
   void print_help() const;
 
-  // Option accessors
+  // Option accessors -- keep options as strings for now. TODO:
+  // get_option_bool,get_option_string,get_option_vec.
   std::string get_option(const std::string &key) const;
   std::string get_option_or(const std::string &key,
                             const std::string &default_val) const;
