@@ -1,12 +1,28 @@
-EXE = example
-CXX = g++
+# Compiler and flags
+CXX      = g++
 CXXFLAGS = -std=c++17 -Iinclude -Wall -Wextra
-SRC = src/argparse.cpp src/commands.cpp examples/main.cpp
 
+# Executable name
+EXE      = example
+
+# Source files
+SRC      = src/commands.cpp examples/main.cpp
+
+# Object files (mirror directory structure under build/)
+OBJ      = $(SRC:%.cpp=build/%.o)
+
+# Default target
 all: $(EXE)
 
-$(EXE): $(SRC)
-	$(CXX) $(CXXFLAGS) -o $@ $(SRC)
+# Link final binary
+$(EXE): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJ)
 
+# Compile each .cpp into a .o inside build/
+build/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean build artifacts
 clean:
-	rm -f $(EXE)
+	rm -rf build $(EXE)

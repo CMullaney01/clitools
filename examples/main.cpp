@@ -1,38 +1,48 @@
-
 #include "clitools/commands.hpp"
 #include <iostream>
 
 using namespace clitools;
 
+
+// ./fctl greet
+// # Hello, World!
+
+// ./fctl greet --name Alice
+// # Hello, Alice!
+
+// ./fctl math add --a 5 --b 7
+// # 12
+
 int main(int argc, char* argv[]) {
-	// Root command
-	Command root("Root command for clitools example");
+    // Root command
+    Command root("fctl", "Root command for clitools example");
 
-	// 'greet' subcommand
-	Command greet_cmd("Greet someone", [](const std::vector<std::string>& args) {
-		std::string name = "World";
-		if (!args.empty()) name = args[0];
-		std::cout << "Hello, " << name << "!\n";
-	});
+    // 'greet' subcommand
+    Command greet_cmd("greet", "Greet someone",
+        [](Command& cmd) {
+            // Get option --name, default to "World"
+            std::string name = cmd.get_option_or("name", "World");
+            std::cout << "Hello, " << name << "!\n";
+        });
 
-	// 'math' subcommand with nested 'add'
-	Command math_cmd("Math operations");
-	Command add_cmd("Add two numbers", [](const std::vector<std::string>& args) {
-		if (args.size() < 2) {
-			std::cout << "Usage: math add <a> <b>\n";
-			return;
-		}
-		int a = std::stoi(args[0]);
-		int b = std::stoi(args[1]);
-		std::cout << (a + b) << std::endl;
-	});
-	math_cmd.add_command("add", add_cmd);
+    // 'math' subcommand with nested 'add'
+    Command math_cmd("math", "Enables simple math operations");
+    Command add_cmd("add", "Add two numbers",
+    [](Command& cmd) {
+        int a = std::stoi(cmd.require_option("a"));
+        int b = std::stoi(cmd.require_option("b"));
+        std::cout << (a + b) << std::endl;
+    });
 
-	// Add subcommands to root
-	root.add_command("greet", greet_cmd);
-	root.add_command("math", math_cmd);
+    math_cmd.add_command(add_cmd);
 
-	// Run the CLI
-	root.run(argc, argv);
-	return 0;
+    // Add subcommands to root
+    root.add_command(greet_cmd);
+    root.add_command(math_cmd);
+
+    // Run the CLI
+    root.parse(argc, argv);
+
+    return 0;
 }
+

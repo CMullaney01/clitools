@@ -2,47 +2,47 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iostream>
-
-#include "argparser.hpp"
+#include <stdexcept>
 
 namespace clitools {
 
 class Command {
  public:
-  using CommandFn = std::function<void(const std::vector<std::string> &args)>;
+  using CommandFn = std::function<void(Command &)>;
 
-  Command(const std::string& desc,
-          CommandFn fn,
-          const ArgParser& argparser,
-          const std::unordered_map<std::string, Command>& commands)
-      : description(desc), fn(fn), argparser(argparser), commands(commands) {}
+  // Root command: contains subcommands
+  Command(const std::string &name, const std::string &desc);
 
-  void set_function(CommandFn f) { fn = f; }
-  void set_description(const std::string& desc) { description = desc; }
+  // Leaf command: has a function and options
+  Command(const std::string &name, const std::string &desc, CommandFn fn);
 
-  void add_command(const std::string &name, Command cmd);
+  void set_function(CommandFn f);
+  void set_description(const std::string &desc);
+  void add_command(Command cmd);
+
+  // Parse argv into subcommand/option handling
+  void parse(int argc, char *argv[]);
+
+  // Run the command handler
   void run(int argc, char *argv[]);
-  void print_help() const {
-    std::cout << (description.empty() ? "No description\n"
-                                      : description + "\n");
-    if (!commands.empty()) {
-      std::cout << "\nAvailable subcommands:\n";
-      for (auto &[name, cmd] : commands) {
-        std::cout << " " << name;
-        if (!cmd.description.empty()) {
-          std::cout << " - " << cmd.description;
-          std::cout << std::endl;
-        }
-      }
-    }
-  }
+
+  // Help
+  void print_help() const;
+
+  // Option accessors
+  std::string get_option(const std::string &key) const;
+  std::string get_option_or(const std::string &key,
+                            const std::string &default_val) const;
+
+  // Require option (throws if missing)
+  std::string require_option(const std::string &key) const;
 
  private:
+  std::string name;
   std::string description;
   CommandFn fn;
-  ArgParser argparser;
   std::unordered_map<std::string, Command> commands;
+  std::unordered_map<std::string, std::string> options;
 };
+
 }  // namespace clitools
