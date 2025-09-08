@@ -20,9 +20,9 @@ int main(int argc, char* argv[]) {
   // 'greet' subcommand
   Command greet_cmd("greet", "Greet someone",
     [](Command& cmd) {
-        // Get option --name, default to "World"
-        std::string name = cmd.get_option_or("name", "World");
-        std::cout << "Hello, " << name << "!\n";
+      // Get option --name, default to "World"
+      std::string name = cmd.get_option_or("name", "World");
+      std::cout << "Hello, " << name << "!\n";
     });
 
 	greet_cmd.add_option("name", "Name to greet", "World");
@@ -60,15 +60,16 @@ int main(int argc, char* argv[]) {
 		},
 		multiply_options
 	);
-    math_cmd.add_command(multiply_cmd);
 
-    // Add subcommands to root
-    root.add_command(greet_cmd);
-    root.add_command(math_cmd);
+  math_cmd.add_command(multiply_cmd);
 
-    // Run the CLI
-    root.parse(argc, argv);
+  // Add subcommands to root
+  root.add_command(greet_cmd);
+  root.add_command(math_cmd);
 
-    return 0;
+  // Run the CLI
+  root.parse(argc, argv);
+
+  return 0;
 }
 
