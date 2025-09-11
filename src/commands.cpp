@@ -21,7 +21,7 @@ Command::Command(const std::string &name, const std::string &desc, CommandFn fn)
 Command::Command(const std::string &name, const std::string &desc, CommandFn fn,
                  std::vector<Command::Option> initial_options)
     : name(name), description(desc), fn(fn), commands() {
-  for (const auto &it : initial_options) {
+  for (auto &it : initial_options) {
     option_metadata[it.key] = it;
   }
 }
@@ -43,7 +43,7 @@ void Command::add_command(Command cmd) {
 
 void Command::parse(int argc, char *argv[]) {
   if (argc < 2) {
-    run(argc, argv);
+    run();
     return;
   }
 
@@ -81,10 +81,10 @@ void Command::parse(int argc, char *argv[]) {
     }
   }
 
-  run(argc, argv);
+  run();
 }
 
-void Command::run(int /*argc*/, char*[] /*argv*/) {
+void Command::run() {
   if (fn) {
     try {
       fn(*this);  // pass self to the handler
