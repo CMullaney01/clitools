@@ -32,7 +32,7 @@ class Command {
   void parse(int argc, char *argv[]);
 
   // Run the command handler
-  void run(int argc, char *argv[]);
+  void run();
 
   // Help
   void print_help() const;
