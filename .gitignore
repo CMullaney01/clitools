@@ -1,0 +1,22 @@
+# Ignore build artifacts and CMake files
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.o
+*.obj
+*.so
+*.a
+*.exe
+*.out
+*.log
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+# Ignore user/editor files
+*.swp
+*.swo
+*.user
+*.vscode/
+.idea/

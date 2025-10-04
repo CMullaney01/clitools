@@ -1,14 +1,20 @@
 # clitools
 
-## Build and Run Example
 
-To build the example CLI tool:
+## Building with CMake
+
+Clone the repository and build using CMake:
 
 ```sh
-make
+cmake -S . -B build
+cmake --build build
 ```
 
-To run the example:
+This will build all CLI tools in the `tools/` directory (e.g., `example`, `todo`).
+
+## Running the Example
+
+From the `build/tools/examples/` directory (or wherever your executable is built):
 
 ```sh
 ./example greet Alice
